@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List With API</title>
+</head>
+<body>
+    <h1>ToDo List - All</h1>
+    <button  onclick="ShowAll()">Show All</button>
+    <button  onclick="Completed_work()" style="background-color: rgb(86, 190, 86);">Completed</button>
+    <button  onclick="Pending_work()" style="background-color:rgb(233, 53, 53);">Pending</button>
+
+<script>
+    let array=[]
+    window.onload= async()=>{
+        var response= await fetch("https://jsonplaceholder.typicode.com/todos");
+        array= await response.json();//returning the array
+        console.log(array)
+        ShowAll();
+    }
+
+    function ShowAll(){
+        let para = document.querySelectorAll("p")
+        for(let i=0;i< para.length;i++){
+            var ptag= para[i];
+            document.body.removeChild(ptag);
+        }
+        for(let i=0;i<array.length;i++){
+            var obj= array[i];
+            var p= document.createElement("p");
+            if(obj.completed){
+                p.innerText= obj.title;
+                p.style.color="green";
+            }else{
+                p.innerText= obj.title;
+                p.style.color="red"
+            }
+            
+
+            document.body.appendChild(p);
+        }
+    }
+    function Completed_work(){
+        var h1= document.querySelector("h1");
+        h1.innerText= "ToDo List - Completed"
+
+        let para = document.querySelectorAll("p")
+        for(let i=0;i< para.length;i++){
+            var ptag= para[i];
+            document.body.removeChild(ptag);
+        }
+        for(let i=0; i<array.length;i++){
+            var obj= array[i];
+            var p= document.createElement("p");
+
+            if(obj.completed){
+                
+                p.style.color= "green";
+                p.innerText= obj.title;
+                document.body.appendChild(p);
+            }
+            
+        }
+    }
+    function Pending_work(){
+        var h1= document.querySelector("h1");
+        h1.innerText= "ToDo List - Pending"
+
+        let para = document.querySelectorAll("p")
+        for(let i=0;i< para.length;i++){
+            var ptag= para[i];
+            document.body.removeChild(ptag);
+        }
+        for(let i=0; i<array.length;i++){
+            var obj= array[i];
+            if(!obj.completed){
+                var p= document.createElement("p");
+                p.style.color = "red";
+                p.innerText = obj.title;
+                document.body.appendChild(p);
+            }
+            
+        }
+        
+    }
+</script>
+    
+</body>
+<!-- <script src="./Modified_script.js"></script> -->
+
